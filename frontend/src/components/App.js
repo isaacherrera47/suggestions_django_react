@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import {render} from "react-dom";
-import {Header} from 'semantic-ui-react';
-import 'semantic-ui-css/semantic.min.css';
+import Header from "./Header";
+import SuggestionForm from "./SuggestionForm";
+import {Container} from "semantic-ui-react";
 
 class App extends Component {
   constructor(props) {
@@ -15,7 +16,10 @@ class App extends Component {
 
   render() {
     return (
-      <Header as="h1">Testing...</Header>
+      <Container style={{marginTop: '3em'}}>
+        <Header/>
+        <SuggestionForm/>
+      </Container>
     );
   }
 }
