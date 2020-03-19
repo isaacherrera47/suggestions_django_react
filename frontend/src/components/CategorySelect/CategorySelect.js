@@ -5,7 +5,12 @@ import axios from "axios";
 class CategorySelect extends Component {
   render() {
     return (
-      <Form.Select options={this.state.options} placeholder="Choose a category"/>
+      <Form.Select
+        onChange={this.props.onChange}
+        options={this.state.options}
+        value={this.props.value}
+        label={this.props.label}
+        placeholder={this.props.placeholder}/>
     );
   }
 
@@ -22,5 +27,12 @@ class CategorySelect extends Component {
     this.state = {options: []};
   }
 }
+
+CategorySelect.defaultProps = {
+  onChange: null,
+  value: null,
+  placeholder: null,
+  label: null
+};
 
 export default CategorySelect;
