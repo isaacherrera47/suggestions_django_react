@@ -7,7 +7,7 @@ import CategorySelect from "../CategorySelect";
 class SuggestionForm extends Component {
   render() {
     return (
-      <Form onSubmit={this.onClickSend} success={this.state.successForm}>
+      <Form onSubmit={this.onClickSend} error={this.state.formError} success={this.state.successForm}>
         <Form.TextArea
           rows={10} value={this.state.suggestion} onChange={this.handleChange}
           placeholder='What do you think we could improve?'
@@ -34,16 +34,26 @@ class SuggestionForm extends Component {
           header='Suggestion sent'
           content="Thank you for sharing a suggestion"
         />
+        <Message
+          error
+          header='Oops!'
+          content='You must select select one category'
+        />
       </Form>
     );
   }
 
   onClickSend() {
     const {suggestion, category} = this.state;
-    axios.post('api/suggestions/create', {'text': suggestion, 'type': category})
-      .then((response) => {
-        this.setState({successForm: true});
-      }).catch(() => alert('Failed'));
+    if (category) {
+      this.setState({formError: false});
+      axios.post('api/suggestions/create', {'text': suggestion, 'type': category})
+        .then((response) => {
+          this.setState({successForm: true});
+        }).catch(() => alert("There's something wrong"));
+    } else {
+      this.setState({formError: true});
+    }
   }
 
   handleChange(event) {
@@ -56,7 +66,7 @@ class SuggestionForm extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {successForm: false, suggestion: '', category: null};
+    this.state = {successForm: false, suggestion: '', category: null, formError: false};
     this.onClickSend = this.onClickSend.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeSelect = this.handleChangeSelect.bind(this);
